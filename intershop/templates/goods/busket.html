@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %} Все товары в корзине{% endblock %}
+{% block header %}Все товары в корзине{% endblock %}
+{% block content %}
+    <div class="container py-5">     
+      <h1>Все товары в корзине</h1>
+      
+      {% for goods in page_obj %}
+      <p><b>{{ goods.caption }}</b></p>      
+        <ul>
+          {% if goods.group %}
+            <li>
+              Группа: {{ goods.group.title }}
+            </li>
+          {% endif %}
+        </ul>       
+
+        <p> Кол-во: {{ goods.quantity }} шт </p>
+        <p> Цена: {{ goods.price}} рублей </p>
+        <p> <b><a href=''>Убрать из корзины </a></b></p>         
+        {% if not forloop.last %}<hr>{% endif %}
+      {% endfor %}
+      {% include 'goods/includes/paginator.html' %}
+    </div>
+{% endblock %} 
