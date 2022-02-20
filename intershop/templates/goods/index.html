@@ -9,15 +9,33 @@
       <p><b>{{ goods.caption }}</b></p>      
         <ul>
           {% if goods.group %}
+          {% for gr in goods.group.all %}
             <li>
-              Группа: {{ goods.group.title }}
+              Группа: {{ gr.title }}
             </li>
+            {%endfor%}
           {% endif %}
         </ul>       
 
         <p> Всего на складе: {{ goods.quantity }} шт </p>
         <p> Цена: {{ goods.price}} рублей </p>
-        <p> <b><a href=''>Добавить в корзину </a></b></p>
+        <p>
+        {% if in_busket %}
+        <a
+          class="btn btn-lg btn-light"
+          href="{% url 'goods:delete' goods.id %}" role="button"
+        >
+          Убрать из козины
+        </a>
+      {% else %}
+          <a
+            class="btn btn-lg btn-primary"
+            href="{% url 'goods:add' goods.id %}" role="button"
+          >
+            Добавить в корзину
+          </a>
+       {% endif %}
+      </p>
         {% if not forloop.last %}<hr>{% endif %}
       {% endfor %}
       {% include 'goods/includes/paginator.html' %}

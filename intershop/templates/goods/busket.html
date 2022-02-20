@@ -3,21 +3,37 @@
 {% block header %}Все товары в корзине{% endblock %}
 {% block content %}
     <div class="container py-5">     
-      <h1>Все товары в корзине</h1>
+      <h1>Товары в корзине (всего: {{count}})</h1>
+      {% if count %}
+      <p> <a
+        class="btn btn-lg btn-primary"
+        href="{% url 'goods:order_apply' order %}" role="button"
+      >
+        Оплатить заказ</a></p>
+      {% endif %}
       
-      {% for goods in page_obj %}
-      <p><b>{{ goods.caption }}</b></p>      
-        <ul>
-          {% if goods.group %}
-            <li>
-              Группа: {{ goods.group.title }}
-            </li>
-          {% endif %}
-        </ul>       
+      {% for elem in page_obj %}
 
-        <p> Кол-во: {{ goods.quantity }} шт </p>
-        <p> Цена: {{ goods.price}} рублей </p>
-        <p> <b><a href=''>Убрать из корзины </a></b></p>         
+      <p><b>{{ elem.goods.caption }}</b></p>
+        <ul>
+          {% if elem.goods.group %}
+          {% for gr in elem.goods.group.all %}
+            <li>
+              Группа: {{ gr.title }}
+            </li>
+            {%endfor%}
+          {% endif %}
+        </ul>
+
+        <p> Кол-во: {{ elem.quantity }} шт </p>
+        <p> Цена: {{ elem.goods.price}} рублей </p>
+        <p>
+          <a
+            class="btn btn-lg btn-light"
+            href="{% url 'goods:delete' elem.id %}" role="button"
+          >
+            Убрать из козины</a>
+        </p>       
         {% if not forloop.last %}<hr>{% endif %}
       {% endfor %}
       {% include 'goods/includes/paginator.html' %}

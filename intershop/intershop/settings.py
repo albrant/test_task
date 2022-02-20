@@ -27,6 +27,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.conf',
+    'import_export',
+    'rest_framework',
+    'verification',
+    
 
 ]
 
@@ -111,8 +116,8 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 GOODS_PER_PAGE = 10
 
-LOGIN_URL = 'users:login'  # по умолчанию '/accounts/login/'
-LOGIN_REDIRECT_URL = 'goods:index'  # по умолчанию '/accounts/profile/'
+LOGIN_URL = 'users:login'
+LOGIN_REDIRECT_URL = 'goods:index'
 
 INTERNAL_IPS = [
     '127.0.0.1',

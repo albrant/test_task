@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %} Заказ оплачен{% endblock %}
+{% block header %}Заказ оплачен{% endblock %}
+{% block content %}
+    <div class="container py-5">     
+      <h1>Заказ успешно оплачен </h1> 
+      <h3>(всего: {{count}})</h3>
+      
+      {% for elem in page_obj %}
+
+      <p><b>{{ elem.goods.caption }}</b></p>
+
+        <p> Кол-во: {{ elem.quantity }} шт </p>
+        <p> Цена: {{ elem.goods.price}} рублей </p>
+     
+        {% if not forloop.last %}<hr>{% endif %}
+      {% endfor %}
+      {% include 'goods/includes/paginator.html' %}
+    </div>
+{% endblock %} 
