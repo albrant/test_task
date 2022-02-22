@@ -30,7 +30,9 @@ INSTALLED_APPS = [
     'django.conf',
     'import_export',
     'rest_framework',
-    'verification',
+    'django_filters',
+    'django_otp',
+    'django_otp.plugins.otp_totp',
     
 
 ]
@@ -43,7 +45,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_otp.middleware.OTPMiddleware'
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5,
+} 
 
 ROOT_URLCONF = 'intershop.urls'
 
@@ -122,3 +130,4 @@ LOGIN_REDIRECT_URL = 'goods:index'
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
+

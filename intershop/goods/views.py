@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+import datetime
+
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
@@ -41,6 +42,7 @@ def busket(request):
 def order_apply(request, order_id):
     current_order = get_object_or_404(Order, id=order_id)
     current_order.is_done = True
+    current_order.order_date = datetime.datetime.now()
     current_order.save()
     goods_in_busket_list = current_order.goods_in_order.all()
     goods_in_busket_count = current_order.goods_in_order.count()

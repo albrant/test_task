@@ -8,17 +8,33 @@ User = get_user_model()
 
 
 class Group(models.Model):
-    title = models.CharField(max_length=50)
-    slug = models.SlugField(unique=True)
-    description = models.TextField()
+    title = models.CharField(
+        max_length=50,
+        verbose_name='Название',
+        help_text='Выберите группу')
+    slug = models.SlugField(max_length=20, unique=True, verbose_name='Слаг')
+    description = models.TextField(verbose_name='Описание')
+
+    class Meta:
+        ordering = ['title']
+        verbose_name = 'Группа'
+        verbose_name_plural = 'Группы'    
 
     def __str__(self):
         return self.title
 
 # слово goods означает как товар, так и товары
 class Goods(models.Model):
-    article = models.CharField(max_length=20)
-    caption = models.CharField(max_length=30)
+    article = models.CharField(
+        max_length=20,
+        verbose_name='Артикль',
+        help_text='Введите артикль товара'        
+    )
+    caption = models.CharField(
+        max_length=30,
+        verbose_name='Название товара',
+        help_text='Введите название товара'         
+    )
     group = models.ManyToManyField(Group)
     quantity = models.IntegerField(default=1)
     # в идеале нужно выносить количество товара в отдельную структуру
@@ -26,21 +42,28 @@ class Goods(models.Model):
     # для данного проекта это упростим - будет просто количество товара
     price = models.FloatField(default=100)
     
+    class Meta:
+        verbose_name = 'Товар'
+        verbose_name_plural = 'Товары'
+    
     def __str__(self):
-        return self.caption
+        return self.caption[:20]
 
 
 class Order(models.Model):
     customer = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="orders")
-    is_done = models.BooleanField(default=False)
+    is_done = models.BooleanField(
+        default=False,
+        verbose_name='Выполнен'
+    )
     order_date = models.DateTimeField(
-        'Дата заказа', 
+        'Дата заказа',
         auto_now_add=True
     )
     
     def __str__(self):
-        return f'Заказ № {self.id} - {self.description}'
+        return f'Заказ № {self.id} от {self.order_date}'
 
 
 # связь "многие-ко-многим" здесь не получится использовать, т.к. 
